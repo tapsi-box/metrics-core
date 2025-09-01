@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  box.tapsi.metrics.core.autoconfigure.TapsiMetricsAutoConfiguration
