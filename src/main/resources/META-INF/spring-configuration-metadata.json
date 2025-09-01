@@ -1,0 +1,46 @@
+{
+  "groups": [
+    {
+      "name": "box.libs.metrics",
+      "type": "box.tapsi.libs.metrics.core.TapsiMetricProperties",
+      "sourceType": "box.tapsi.libs.metrics.core.TapsiMetricProperties",
+      "description": "Tapsi Metrics configuration properties."
+    },
+    {
+      "name": "box.libs.metrics.reactive-timed",
+      "type": "box.tapsi.libs.metrics.core.TapsiMetricProperties$ReactiveTimed",
+      "sourceType": "box.tapsi.libs.metrics.core.TapsiMetricProperties$ReactiveTimed",
+      "description": "ReactiveTimed aspect configuration properties."
+    }
+  ],
+  "properties": [
+    {
+      "name": "box.libs.metrics.reactive-timed.order",
+      "type": "java.lang.Integer",
+      "sourceType": "box.tapsi.libs.metrics.core.TapsiMetricProperties$ReactiveTimed",
+      "description": "Order of the ReactiveTimed aspect. Lower values have higher precedence.",
+      "defaultValue": 2147483647
+    },
+    {
+      "name": "box.libs.metrics.reactive-timed.include-class-name",
+      "type": "java.lang.Boolean",
+      "sourceType": "box.tapsi.libs.metrics.core.TapsiMetricProperties$ReactiveTimed",
+      "description": "Whether to include the class name as a tag in metrics.",
+      "defaultValue": true
+    },
+    {
+      "name": "box.libs.metrics.reactive-timed.include-method-name",
+      "type": "java.lang.Boolean",
+      "sourceType": "box.tapsi.libs.metrics.core.TapsiMetricProperties$ReactiveTimed",
+      "description": "Whether to include the method name as a tag in metrics.",
+      "defaultValue": true
+    },
+    {
+      "name": "box.libs.metrics.reactive-timed.default-tags",
+      "type": "java.util.Map<java.lang.String,java.lang.String>",
+      "sourceType": "box.tapsi.libs.metrics.core.TapsiMetricProperties$ReactiveTimed",
+      "description": "Default tags to include in all reactive timed metrics.",
+      "defaultValue": {}
+    }
+  ]
+}

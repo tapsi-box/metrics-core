@@ -1,6 +1,6 @@
-package box.tapsi.metrics.core.services
+package box.tapsi.libs.metrics.core.services
 
-import box.tapsi.metrics.core.MeterName
+import box.tapsi.libs.metrics.core.MeterName
 import io.micrometer.core.instrument.Meter
 import io.micrometer.core.instrument.Tag
 import kotlin.reflect.KClass

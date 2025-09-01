@@ -1,7 +1,7 @@
-package box.tapsi.metrics.core.aop
+package box.tapsi.libs.metrics.core.aop
 
-import box.tapsi.metrics.core.TapsiMetricProperties
-import box.tapsi.metrics.core.annotations.ReactiveTimed
+import box.tapsi.libs.metrics.core.TapsiMetricProperties
+import box.tapsi.libs.metrics.core.annotations.ReactiveTimed
 import io.micrometer.observation.ObservationRegistry
 import java.lang.reflect.Method
 import org.aspectj.lang.ProceedingJoinPoint
@@ -17,6 +17,24 @@ import reactor.core.observability.micrometer.Micrometer
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
+/**
+ * Aspect for capturing and managing reactive metrics for methods that return reactive types
+ * such as Mono or Flux. Supports metrics recording via Micrometer and allows annotation-based
+ * customization at the class or method levels using the `ReactiveTimed` annotation.
+ *
+ * The aspect uses a configured `ObservationRegistry` for observation instrumentation
+ * and draws configuration from `TapsiMetricProperties`.
+ *
+ * @constructor Creates an instance of the `ReactiveTimedAspect` with the provided observation registry
+ *              and metric-related configurations.
+ *
+ * @param observationRegistry The observation registry to be used for recording metrics.
+ * @param tapsiMetricProperties Configuration properties that control default behavior of reactive timing,
+ *                               including tags, default order, and metric collection preferences.
+ *
+ * @property defaultMetricName The default metric name used if no specific name is provided
+ *                             through the `ReactiveTimed` annotation.
+ */
 @Aspect
 @Component
 class ReactiveTimedAspect(
@@ -28,8 +46,8 @@ class ReactiveTimedAspect(
   override fun getOrder(): Int = tapsiMetricProperties.reactiveTimed.order
 
   @Around(
-    "@within(box.tapsi.metrics.core.annotations.ReactiveTimed)" +
-      "&& !@annotation(box.tapsi.metrics.core.annotations.ReactiveTimed)",
+    "@within(box.tapsi.libs.metrics.core.annotations.ReactiveTimed)" +
+      "&& !@annotation(box.tapsi.libs.metrics.core.annotations.ReactiveTimed)",
   )
   fun reactiveTimedClass(joinPoint: ProceedingJoinPoint): Any? {
     val method = (joinPoint.signature as MethodSignature).method
@@ -40,7 +58,7 @@ class ReactiveTimedAspect(
     return perform(joinPoint, reactiveTimedAnnotation, targetMethod)
   }
 
-  @Around("execution (@box.tapsi.metrics.core.annotations.ReactiveTimed * *.*(..))")
+  @Around("execution (@box.tapsi.libs.metrics.core.annotations.ReactiveTimed * *.*(..))")
   fun reactiveTimedMethod(joinPoint: ProceedingJoinPoint): Any? {
     val method = (joinPoint.signature as MethodSignature).method
     val targetMethod = AopUtils.getMostSpecificMethod(method, joinPoint.target.javaClass)

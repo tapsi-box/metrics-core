@@ -1,6 +1,6 @@
-package box.tapsi.metrics.core.services
+package box.tapsi.libs.metrics.core.services
 
-import box.tapsi.metrics.core.MeterName
+import box.tapsi.libs.metrics.core.MeterName
 import io.micrometer.core.instrument.DistributionSummary
 import io.micrometer.core.instrument.Meter
 import io.micrometer.core.instrument.MeterRegistry
@@ -9,15 +9,15 @@ import io.micrometer.core.instrument.Tag
 import io.micrometer.core.instrument.search.RequiredSearch
 import java.time.Duration
 import kotlin.reflect.KClass
-import org.slf4j.Logger
-import org.springframework.stereotype.Service
+import org.slf4j.LoggerFactory
 import reactor.core.publisher.Mono
 
-@Service
+
 class MeterRegistryServiceImpl(
   private val registry: MeterRegistry,
-  private val logger: Logger,
 ) : MeterRegistryService {
+  private val logger = LoggerFactory.getLogger(this::class.java)
+
   override fun incrementCounter(meterName: MeterName, tags: List<Tag>) {
     registry.counter(meterName.meterName, tags).increment()
   }

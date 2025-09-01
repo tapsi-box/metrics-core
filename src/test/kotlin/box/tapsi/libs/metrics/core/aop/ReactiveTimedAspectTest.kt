@@ -1,7 +1,7 @@
-package box.tapsi.metrics.core.aop
+package box.tapsi.libs.metrics.core.aop
 
-import box.tapsi.metrics.core.TapsiMetricProperties
-import box.tapsi.metrics.core.annotations.ReactiveTimed
+import box.tapsi.libs.metrics.core.TapsiMetricProperties
+import box.tapsi.libs.metrics.core.annotations.ReactiveTimed
 import io.micrometer.observation.ObservationRegistry
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
