@@ -3,8 +3,8 @@ package box.tapsi.libs.metrics.core.services
 import box.tapsi.libs.metrics.core.MeterName
 import io.micrometer.core.instrument.Meter
 import io.micrometer.core.instrument.Tag
-import kotlin.reflect.KClass
 import reactor.core.publisher.Mono
+import kotlin.reflect.KClass
 
 /**
  * Service interface for interacting with MeterRegistry to manage application metrics.

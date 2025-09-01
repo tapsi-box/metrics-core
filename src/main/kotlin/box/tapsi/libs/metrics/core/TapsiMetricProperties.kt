@@ -5,7 +5,7 @@ import org.springframework.core.Ordered
 
 @ConfigurationProperties("box.libs.metrics")
 data class TapsiMetricProperties(
-  val reactiveTimed: ReactiveTimed = ReactiveTimed()
+  val reactiveTimed: ReactiveTimed = ReactiveTimed(),
 ) {
   /**
    * Represents configuration settings for reactive metrics timing.

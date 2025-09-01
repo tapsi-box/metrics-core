@@ -7,11 +7,10 @@ import io.micrometer.core.instrument.MeterRegistry
 import io.micrometer.core.instrument.Statistic
 import io.micrometer.core.instrument.Tag
 import io.micrometer.core.instrument.search.RequiredSearch
-import java.time.Duration
-import kotlin.reflect.KClass
 import org.slf4j.LoggerFactory
 import reactor.core.publisher.Mono
-
+import java.time.Duration
+import kotlin.reflect.KClass
 
 class MeterRegistryServiceImpl(
   private val registry: MeterRegistry,
@@ -40,17 +39,19 @@ class MeterRegistryServiceImpl(
       .record(value)
   }
 
-  override fun getAverageExecutionTime(meterName: MeterName, clazz: KClass<*>): Mono<Double> =
-    getMeterOfClass(meterName, clazz)
-      .map { meter ->
-        val totalTime = meter.measure().first { it.statistic == Statistic.TOTAL_TIME }.value
-        val count = meter.measure().first { it.statistic == Statistic.COUNT }.value
-        totalTime / count
-      }.doOnNext {
-        logger.info("Average execution time for ${clazz.java.name}: $it")
-      }.doOnError {
-        logger.error("Error while getting average execution time for ${clazz.java.name}: ${it.message}")
-      }
+  override fun getAverageExecutionTime(
+    meterName: MeterName,
+    clazz: KClass<*>,
+  ): Mono<Double> = getMeterOfClass(meterName, clazz)
+    .map { meter ->
+      val totalTime = meter.measure().first { it.statistic == Statistic.TOTAL_TIME }.value
+      val count = meter.measure().first { it.statistic == Statistic.COUNT }.value
+      totalTime / count
+    }.doOnNext {
+      logger.info("Average execution time for ${clazz.java.name}: $it")
+    }.doOnError {
+      logger.error("Error while getting average execution time for ${clazz.java.name}: ${it.message}")
+    }
 
   override fun getMeterOfClass(meterName: MeterName, clazz: KClass<*>): Mono<Meter> = Mono.fromCallable {
     return@fromCallable RequiredSearch.`in`(registry)

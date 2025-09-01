@@ -17,6 +17,5 @@ package box.tapsi.libs.metrics.core.annotations
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ReactiveTimed(
   val name: String = "",
-  val extraTags: Array<String> = []
+  val extraTags: Array<String> = [],
 )
-

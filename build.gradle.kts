@@ -1,10 +1,12 @@
 plugins {
-  kotlin("jvm") version "1.9.25"
-  kotlin("plugin.spring") version "1.9.25"
+  kotlin("jvm") version "1.9.23"
+  kotlin("plugin.spring") version "1.9.23"
   id("org.springframework.boot") version "3.5.5"
   id("io.spring.dependency-management") version "1.1.7"
 
   id("com.vanniktech.maven.publish") version "0.34.0"
+  id("com.diffplug.spotless") version "7.2.1"
+  id("io.gitlab.arturbosch.detekt") version "1.23.6"
 }
 
 group = "box.tapsi.libs"
@@ -74,4 +76,28 @@ mavenPublishing {
       url.set("https://github.com/tapsi-box/metrics-core")
     }
   }
+}
+
+spotless {
+  kotlin {
+    target("src/**/*.kt")
+    ktlint()
+      .editorConfigOverride(
+        mapOf(
+          "indent_size" to 2,
+          "ktlint_standard_filename" to "disabled",
+          "ktlint_standard_max-line-length" to "120"
+        )
+      )
+    trimTrailingWhitespace()
+    leadingTabsToSpaces()
+    endWithNewline()
+  }
+}
+
+detekt {
+  buildUponDefaultConfig = true
+  allRules = true
+  config.setFrom("$projectDir/detekt.yml")
+  baseline = file("$projectDir/detekt-baseline.xml")
 }

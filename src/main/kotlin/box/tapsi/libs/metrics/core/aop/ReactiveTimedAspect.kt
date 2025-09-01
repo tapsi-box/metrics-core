@@ -3,7 +3,6 @@ package box.tapsi.libs.metrics.core.aop
 import box.tapsi.libs.metrics.core.TapsiMetricProperties
 import box.tapsi.libs.metrics.core.annotations.ReactiveTimed
 import io.micrometer.observation.ObservationRegistry
-import java.lang.reflect.Method
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
@@ -16,6 +15,7 @@ import reactor.core.CorePublisher
 import reactor.core.observability.micrometer.Micrometer
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
+import java.lang.reflect.Method
 
 /**
  * Aspect for capturing and managing reactive metrics for methods that return reactive types
@@ -83,10 +83,12 @@ class ReactiveTimedAspect(
   ): MutableMap<String, String> {
     val tags: MutableMap<String, String> = mutableMapOf()
 
-    if (tapsiMetricProperties.reactiveTimed.includeClassName)
+    if (tapsiMetricProperties.reactiveTimed.includeClassName) {
       tags["class"] = joinPoint.target.javaClass.name
-    if (tapsiMetricProperties.reactiveTimed.includeMethodName)
+    }
+    if (tapsiMetricProperties.reactiveTimed.includeMethodName) {
       tags["method"] = method.name
+    }
 
     tapsiMetricProperties.reactiveTimed.defaultTags.forEach { (key, value) ->
       tags[key] = value
