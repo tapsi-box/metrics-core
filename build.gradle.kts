@@ -8,7 +8,7 @@ plugins {
 }
 
 group = "box.tapsi.libs"
-version = "0.0.4-SNAPSHOT"
+version = "1.0.0"
 description = "metrics-core"
 
 java {
@@ -22,14 +22,14 @@ repositories {
 }
 
 dependencies {
-  implementation("io.micrometer:micrometer-core")
-  implementation("io.micrometer:micrometer-observation")
-  implementation("org.springframework.boot:spring-boot-starter-aop")
-  implementation("io.projectreactor:reactor-core")
-  implementation("io.projectreactor:reactor-core-micrometer")
-  implementation("org.springframework.boot:spring-boot-starter-actuator")
-  implementation("org.springframework:spring-context")
-  implementation("org.springframework.boot:spring-boot-autoconfigure")
+  implementation("io.micrometer:micrometer-core:1.15.3")
+  implementation("io.micrometer:micrometer-observation:1.15.3")
+  implementation("org.springframework.boot:spring-boot-starter-aop:3.5.5")
+  implementation("io.projectreactor:reactor-core:3.7.9")
+  implementation("io.projectreactor:reactor-core-micrometer:1.2.9")
+  implementation("org.springframework.boot:spring-boot-starter-actuator:3.5.5")
+  implementation("org.springframework:spring-context:6.2.10")
+  implementation("org.springframework.boot:spring-boot-autoconfigure:3.5.5")
 
   testImplementation("org.springframework.boot:spring-boot-starter-test")
   testImplementation("io.projectreactor:reactor-test")
@@ -60,6 +60,14 @@ mavenPublishing {
         name.set("MIT License")
         url.set("https://opensource.org/licenses/MIT")
         distribution.set("repo")
+      }
+    }
+    developers {
+      developer {
+        id.set("mahdibohloul")
+        name.set("Mahdi Bohloul")
+        email.set("mahdiibohloul@gmail.com")
+        url.set("https://github.com/mahdibohloul/")
       }
     }
     scm {
