@@ -7,10 +7,11 @@ plugins {
   id("com.vanniktech.maven.publish") version "0.34.0"
   id("com.diffplug.spotless") version "7.2.1"
   id("io.gitlab.arturbosch.detekt") version "1.23.6"
+  `java-library`
 }
 
 group = "box.tapsi.libs"
-version = "1.0.0"
+version = "1.0.1"
 description = "metrics-core"
 
 java {
@@ -26,6 +27,8 @@ repositories {
 dependencies {
   implementation("io.micrometer:micrometer-core:1.15.3")
   implementation("io.micrometer:micrometer-observation:1.15.3")
+  implementation("io.micrometer:context-propagation:1.1.3")
+
   implementation("org.springframework.boot:spring-boot-starter-aop:3.5.5")
   implementation("io.projectreactor:reactor-core:3.7.9")
   implementation("io.projectreactor:reactor-core-micrometer:1.2.9")
