@@ -10,7 +10,7 @@ on:
       - 'v*.*.*-RC*'  # Release candidates
       - 'v*.*.*-M*'   # Milestones
   pull_request:
-    branches: [ "master", "*.x" ]
+    branches: [ "main", "*.x" ]
 
 permissions:
   contents: write  # Needed for creating releases

@@ -17,7 +17,7 @@ A reactive observability library for Spring Boot applications that provides comp
 <dependency>
     <groupId>box.tapsi.libs</groupId>
     <artifactId>metrics-core</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 
