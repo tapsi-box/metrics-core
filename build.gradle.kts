@@ -11,7 +11,7 @@ plugins {
 }
 
 group = "box.tapsi.libs"
-version = "1.0.1"
+version = "1.0.2"
 description = "metrics-core"
 
 java {
@@ -25,13 +25,13 @@ repositories {
 }
 
 dependencies {
-  implementation("io.micrometer:micrometer-core:1.15.3")
-  implementation("io.micrometer:micrometer-observation:1.15.3")
-  implementation("io.micrometer:context-propagation:1.1.3")
+  api("io.micrometer:micrometer-core:1.15.3")
+  api("io.micrometer:micrometer-observation:1.15.3")
+  api("io.micrometer:context-propagation:1.1.3")
+  api("io.projectreactor:reactor-core-micrometer:1.2.9")
 
   implementation("org.springframework.boot:spring-boot-starter-aop:3.5.5")
   implementation("io.projectreactor:reactor-core:3.7.9")
-  implementation("io.projectreactor:reactor-core-micrometer:1.2.9")
   implementation("org.springframework.boot:spring-boot-starter-actuator:3.5.5")
   implementation("org.springframework:spring-context:6.2.10")
   implementation("org.springframework.boot:spring-boot-autoconfigure:3.5.5")
