@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "box.tapsi.libs"
-version = "1.0.2"
+version = "1.0.3"
 description = "metrics-core"
 
 java {
@@ -35,10 +35,11 @@ dependencies {
   implementation("org.springframework:spring-context:6.2.10")
   implementation("org.springframework.boot:spring-boot-autoconfigure:3.5.5")
 
-  testImplementation("org.springframework.boot:spring-boot-starter-test")
-  testImplementation("io.projectreactor:reactor-test")
+  testImplementation("org.springframework.boot:spring-boot-starter-test:3.5.5")
+  testImplementation("org.jetbrains.kotlin:kotlin-test-junit5:1.9.23")
+  testImplementation("io.projectreactor:reactor-test:3.7.9")
 
-  annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
+  testRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 kotlin {

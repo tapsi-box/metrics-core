@@ -1,6 +1,7 @@
 # Tapsi Metrics Core
 
-A reactive observability library for Spring Boot applications that provides comprehensive metrics collection and monitoring capabilities.
+A reactive observability library for Spring Boot applications that provides comprehensive metrics collection and
+monitoring capabilities.
 
 ## Features
 
@@ -14,10 +15,11 @@ A reactive observability library for Spring Boot applications that provides comp
 ### 1. Add Dependency
 
 ```xml
+
 <dependency>
     <groupId>box.tapsi.libs</groupId>
     <artifactId>metrics-core</artifactId>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
 </dependency>
 ```
 
@@ -26,13 +28,14 @@ A reactive observability library for Spring Boot applications that provides comp
 The library automatically configures itself when you have the following dependencies in your project:
 
 ```xml
+
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-actuator</artifactId>
 </dependency>
 <dependency>
-    <groupId>io.micrometer</groupId>
-    <artifactId>micrometer-registry-prometheus</artifactId>
+<groupId>io.micrometer</groupId>
+<artifactId>micrometer-registry-prometheus</artifactId>
 </dependency>
 ```
 
@@ -41,21 +44,23 @@ The library automatically configures itself when you have the following dependen
 ```kotlin
 @Service
 class MyService(
-    private val meterRegistryService: MeterRegistryService
+  private val meterRegistryService: MeterRegistryService
 ) {
-    
-    @ReactiveTimed(name = "my.custom.metric")
-    fun myMethod(): Mono<String> {
-        // Your reactive logic here
-        return Mono.just("Hello World")
-    }
-    
-    fun recordCustomMetric() {
-        meterRegistryService.incrementCounter(
-            object : MeterName { override val meterName = "custom.counter" },
-            listOf(Tag.of("component", "my-service"))
-        )
-    }
+
+  @ReactiveTimed(name = "my.custom.metric")
+  fun myMethod(): Mono<String> {
+    // Your reactive logic here
+    return Mono.just("Hello World")
+  }
+
+  fun recordCustomMetric() {
+    meterRegistryService.incrementCounter(
+      object : MeterName {
+        override val meterName = "custom.counter"
+      },
+      listOf(Tag.of("component", "my-service"))
+    )
+  }
 }
 ```
 
@@ -80,11 +85,11 @@ box:
 
 ```kotlin
 enum class MyMetrics : MeterName {
-    REQUEST_COUNT,
-    RESPONSE_TIME,
-    ERROR_COUNT;
-    
-    override val meterName: String = name.lowercase().replace("_", ".")
+  REQUEST_COUNT,
+  RESPONSE_TIME,
+  ERROR_COUNT;
+
+  override val meterName: String = name.lowercase().replace("_", ".")
 }
 ```
 
@@ -95,6 +100,7 @@ enum class MyMetrics : MeterName {
 #### 1. Bean Not Found Error
 
 If you get this error:
+
 ```
 Parameter 1 of constructor in ... required a bean of type 'box.tapsi.libs.metrics.core.services.MeterRegistryService' that could not be found.
 ```
