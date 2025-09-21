@@ -3,6 +3,7 @@ package box.tapsi.libs.metrics.core.services
 import box.tapsi.libs.metrics.core.MeterName
 import io.micrometer.core.instrument.Meter
 import io.micrometer.core.instrument.Tag
+import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import kotlin.reflect.KClass
 
@@ -70,4 +71,20 @@ interface MeterRegistryService {
    * @param baseUnit The base unit of measurement for the metric, or null if no base unit is specified.
    */
   fun distributionSummary(meterName: MeterName, tags: List<Tag>, value: Double, baseUnit: String?)
+
+  /**
+   * Enhances the provided Mono by applying reactive observation capabilities, such as metrics or tracing.
+   *
+   * @param mono The Mono instance to be tapped for observation enhancements.
+   * @return A Mono instance with observation capabilities applied.
+   */
+  fun <T : Any> tap(mono: Mono<T>): Mono<T>
+
+  /**
+   * Enhances the provided Flux by applying reactive observation capabilities, such as metrics or tracing.
+   *
+   * @param flux The Flux instance to be tapped for observation enhancements.
+   * @return A Flux instance with observation capabilities applied.
+   */
+  fun <T : Any> tap(flux: Flux<T>): Flux<T>
 }

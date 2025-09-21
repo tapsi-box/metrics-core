@@ -35,5 +35,8 @@ class TapsiMetricsAutoConfiguration {
   @ConditionalOnMissingBean(MeterRegistryService::class)
   @ConditionalOnBean(MeterRegistry::class)
   @Bean
-  fun meterRegistryService(meterRegistry: MeterRegistry): MeterRegistryService = MeterRegistryServiceImpl(meterRegistry)
+  fun meterRegistryService(
+    meterRegistry: MeterRegistry,
+    observationRegistry: ObservationRegistry,
+  ): MeterRegistryService = MeterRegistryServiceImpl(meterRegistry, observationRegistry)
 }

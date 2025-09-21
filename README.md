@@ -19,7 +19,7 @@ monitoring capabilities.
 <dependency>
     <groupId>box.tapsi.libs</groupId>
     <artifactId>metrics-core</artifactId>
-    <version>1.0.3</version>
+    <version>1.0.4</version>
 </dependency>
 ```
 
@@ -150,6 +150,8 @@ logging:
 - `recordTimer(meterName: MeterName, time: Long, tags: List<Tag>)`
 - `registerGauge(meterName: MeterName, tags: List<Tag>, obj: T, valueFunction: (T) -> Double)`
 - `distributionSummary(meterName: MeterName, tags: List<Tag>, value: Double, baseUnit: String?)`
+- `tap(mono: Mono<T>): Mono<T>`
+- `tap(flux: Flux<T>): Flux<T>`
 
 ### ReactiveTimed Annotation
 
