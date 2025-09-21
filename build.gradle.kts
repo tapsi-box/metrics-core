@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "box.tapsi.libs"
-version = "1.0.3"
+version = "1.0.4"
 description = "metrics-core"
 
 java {

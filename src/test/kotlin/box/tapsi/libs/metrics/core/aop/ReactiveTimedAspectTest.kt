@@ -2,7 +2,7 @@ package box.tapsi.libs.metrics.core.aop
 
 import box.tapsi.libs.metrics.core.TapsiMetricProperties
 import box.tapsi.libs.metrics.core.annotations.ReactiveTimed
-import io.micrometer.observation.ObservationRegistry
+import box.tapsi.libs.metrics.core.services.MeterRegistryService
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.mockito.Answers
@@ -17,7 +17,7 @@ import reactor.test.StepVerifier
 class ReactiveTimedAspectTest {
 
   @Mock
-  private lateinit var observationRegistry: ObservationRegistry
+  private lateinit var meterRegistryService: MeterRegistryService
 
   @Mock(answer = Answers.RETURNS_DEEP_STUBS)
   private lateinit var tapsiMetricProperties: TapsiMetricProperties
@@ -40,7 +40,7 @@ class ReactiveTimedAspectTest {
     Mockito.`when`(reactiveTimedProperties.defaultTags).thenReturn(emptyMap())
 
     // Create the aspect
-    reactiveTimedAspect = ReactiveTimedAspect(observationRegistry, tapsiMetricProperties)
+    reactiveTimedAspect = ReactiveTimedAspect(meterRegistryService, tapsiMetricProperties)
 
     // Create the target service and proxy with the aspect
     val testService = TestService()

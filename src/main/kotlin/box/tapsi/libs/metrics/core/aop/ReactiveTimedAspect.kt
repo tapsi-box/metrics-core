@@ -2,7 +2,7 @@ package box.tapsi.libs.metrics.core.aop
 
 import box.tapsi.libs.metrics.core.TapsiMetricProperties
 import box.tapsi.libs.metrics.core.annotations.ReactiveTimed
-import io.micrometer.observation.ObservationRegistry
+import box.tapsi.libs.metrics.core.services.MeterRegistryService
 import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
@@ -12,7 +12,6 @@ import org.springframework.core.Ordered
 import org.springframework.core.annotation.AnnotationUtils
 import org.springframework.stereotype.Component
 import reactor.core.CorePublisher
-import reactor.core.observability.micrometer.Micrometer
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.lang.reflect.Method
@@ -38,7 +37,7 @@ import java.lang.reflect.Method
 @Aspect
 @Component
 class ReactiveTimedAspect(
-  private val observationRegistry: ObservationRegistry,
+  private val meterRegistryService: MeterRegistryService,
   private val tapsiMetricProperties: TapsiMetricProperties,
 ) : Ordered {
   val defaultMetricName = "reactive.method.timed"
@@ -110,7 +109,7 @@ class ReactiveTimedAspect(
       for (tag in tags) {
         unRecordedResult = unRecordedResult.tag(tag.key, tag.value)
       }
-      (unRecordedResult as Mono<Any>).contextCapture().tap(Micrometer.observation(observationRegistry))
+      (unRecordedResult as Mono<Any>).`as`(meterRegistryService::tap)
     }
 
     is Flux<*> -> {
@@ -119,7 +118,7 @@ class ReactiveTimedAspect(
       for (tag in tags) {
         unRecordedResult = unRecordedResult.tag(tag.key, tag.value)
       }
-      (unRecordedResult as Flux<Any>).contextCapture().tap(Micrometer.observation(observationRegistry))
+      (unRecordedResult as Flux<Any>).`as`(meterRegistryService::tap)
     }
 
     else -> result
