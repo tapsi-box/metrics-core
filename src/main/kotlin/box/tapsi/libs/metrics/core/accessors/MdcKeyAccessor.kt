@@ -4,7 +4,7 @@ import io.micrometer.context.ThreadLocalAccessor
 import org.slf4j.MDC
 
 class MdcKeyAccessor(
-  private val key: String
+  private val key: String,
 ) : ThreadLocalAccessor<String> {
   override fun key(): Any = key
 

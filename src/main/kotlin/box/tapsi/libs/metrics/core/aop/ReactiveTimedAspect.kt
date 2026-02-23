@@ -7,32 +7,28 @@ import org.aspectj.lang.ProceedingJoinPoint
 import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.reflect.MethodSignature
+import org.reactivestreams.Publisher
 import org.springframework.aop.support.AopUtils
 import org.springframework.core.Ordered
 import org.springframework.core.annotation.AnnotationUtils
 import org.springframework.stereotype.Component
-import reactor.core.CorePublisher
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import java.lang.reflect.Method
 
 /**
- * Aspect for capturing and managing reactive metrics for methods that return reactive types
- * such as Mono or Flux. Supports metrics recording via Micrometer and allows annotation-based
- * customization at the class or method levels using the `ReactiveTimed` annotation.
+ * Aspect for managing reactive timing metrics using annotations.
+ * This class intercepts methods annotated with `@ReactiveTimed` or classes
+ * with the same annotation and measures their execution time,
+ * integrating with a metrics system through `MeterRegistryService`.
  *
- * The aspect uses a configured `ObservationRegistry` for observation instrumentation
- * and draws configuration from `TapsiMetricProperties`.
+ * This aspect supports handling reactive types such as `Mono` and `Flux` by applying metrics
+ * on the reactive streams and providing additional context through tags.
  *
- * @constructor Creates an instance of the `ReactiveTimedAspect` with the provided observation registry
- *              and metric-related configurations.
- *
- * @param observationRegistry The observation registry to be used for recording metrics.
- * @param tapsiMetricProperties Configuration properties that control default behavior of reactive timing,
- *                               including tags, default order, and metric collection preferences.
- *
- * @property defaultMetricName The default metric name used if no specific name is provided
- *                             through the `ReactiveTimed` annotation.
+ * @property meterRegistryService The service managing interactions with the metrics registry for
+ * recording and querying metrics.
+ * @property tapsiMetricProperties Configuration properties that define the behavior of reactive
+ * timing, including default metric properties and tag handling.
  */
 @Aspect
 @Component
@@ -71,7 +67,7 @@ class ReactiveTimedAspect(
     val name = reactiveTimedAnnotation.name.ifEmpty { defaultMetricName }
     val extraTags = reactiveTimedAnnotation.extraTags
     val tags: MutableMap<String, String> = getTags(joinPoint, method, extraTags)
-    if (result !is CorePublisher<*>) return result
+    if (result !is Publisher<*>) return result
     return applyReactiveMetrics(result, name, tags)
   }
 
@@ -100,10 +96,10 @@ class ReactiveTimedAspect(
   }
 
   private fun applyReactiveMetrics(
-    result: CorePublisher<*>,
+    result: Publisher<*>,
     name: String,
     tags: Map<String, String>,
-  ): CorePublisher<*> = when (result) {
+  ): Publisher<*> = when (result) {
     is Mono<*> -> {
       var unRecordedResult = result.name(name)
       for (tag in tags) {
