@@ -1,17 +1,21 @@
 package box.tapsi.libs.metrics.core.autoconfigure
 
 import box.tapsi.libs.metrics.core.TapsiMetricProperties
+import box.tapsi.libs.metrics.core.accessors.MdcKeyAccessor
 import box.tapsi.libs.metrics.core.services.MeterRegistryService
 import box.tapsi.libs.metrics.core.services.MeterRegistryServiceImpl
+import io.micrometer.context.ContextRegistry
 import io.micrometer.core.aop.TimedAspect
 import io.micrometer.core.instrument.MeterRegistry
 import io.micrometer.observation.ObservationRegistry
 import io.micrometer.observation.aop.ObservedAspect
+import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.actuate.autoconfigure.metrics.CompositeMeterRegistryAutoConfiguration
 import org.springframework.boot.autoconfigure.AutoConfiguration
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.ComponentScan
@@ -39,4 +43,14 @@ class TapsiMetricsAutoConfiguration {
     meterRegistry: MeterRegistry,
     observationRegistry: ObservationRegistry,
   ): MeterRegistryService = MeterRegistryServiceImpl(meterRegistry, observationRegistry)
+
+  @ConditionalOnProperty(
+    value = ["spring.reactor.context-propagation"],
+    havingValue = "auto",
+    matchIfMissing = false,
+  )
+  @Bean
+  fun registerTraceIdAccessor(): ApplicationRunner = ApplicationRunner {
+    ContextRegistry.getInstance().registerThreadLocalAccessor(MdcKeyAccessor("trace_id"))
+  }
 }
